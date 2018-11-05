@@ -1,3 +1,10 @@
 # project-kepler
 
-Skillcamp project for Github's game-off event.
+Skillcamp's project for the 2018 Github game-off event.
+
+## Getting Started
+
+```bash
+yarn install
+yarn run dev
+```
