@@ -61,12 +61,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityY(this.vel);
     }
 
-    if (
-      up.isDown || down.isDown || left.isDown || right.isDown
-      || w.isDown || s.isDown || a.isDown || d.isDown
-    ) {
-      animationName = 'player-walk';
-    } else {
+
+    if(left.isDown || right.isDown || a.isDown || d.isDown){
+      animationName = 'player-side-walk';
+    }
+    else if (up.isDown || down.isDown || w.isDown || s.isDown) {
+      animationName = 'player-front-walk';
+    }
+    else {
       animationName = 'player-idle';
     }
 

@@ -10,7 +10,8 @@ class TitleScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', 'assets/tilemaps/scifimap.json');
 
     this.load.spritesheet('player_idle', 'assets/spritesheets/astro_idle.png', { frameWidth: 39, frameHeight: 50 });
-    this.load.spritesheet('player_walk', 'assets/spritesheets/astro_forward.png', { frameWidth: 41.8, frameHeight: 50 });
+    this.load.spritesheet('player_side_walk', 'assets/spritesheets/astro_side.png', { frameWidth: 36.5, frameHeight: 50 });
+    this.load.spritesheet('player_front_walk', 'assets/spritesheets/astro_forward.png', { frameWidth: 41.8, frameHeight: 50 });
     this.load.spritesheet('player_dead', 'assets/spritesheets/player_dead.png', { frameWidth: 21, frameHeight: 20 });
     this.load.spritesheet('player_hurt', 'assets/spritesheets/player_hurt.png', { frameWidth: 20, frameHeight: 20 });
   }

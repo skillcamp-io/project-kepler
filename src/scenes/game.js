@@ -29,8 +29,15 @@ class GameScene extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: 'player-walk',
-      frames: this.anims.generateFrameNumbers('player_walk', { start: 0, end: 7 }),
+      key: 'player-front-walk',
+      frames: this.anims.generateFrameNumbers('player_front_walk', { start: 0, end: 7 }),
+      frameRate: 14,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'player-side-walk',
+      frames: this.anims.generateFrameNumbers('player_side_walk', { start: 0, end: 7 }),
       frameRate: 14,
       repeat: -1,
     });
