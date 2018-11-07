@@ -25,7 +25,7 @@
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.4.4",
     "normalize.css": "^8.0.0",
-    "phaser": "^3.12.0",
+    "phaser": "^3.15.1",
     "spectre.css": "^0.5.4",
     "style-loader": "^0.23.1"
   }
