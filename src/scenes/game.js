@@ -48,7 +48,7 @@ export class GameScene extends Phaser.Scene {
 
   setUpMap() {
     this.map = this.make.tilemap({ key: 'map' });
-    var tiles = this.map.addTilesetImage('scifi_tilesheet', 'scifi_tilesheet_img');
+    var tiles = this.map.addTilesetImage('scifi_tilesheet', 'scifi_tilesheet_img', 64, 64, 1, 2);
 
     this.background_layer = this.map.createStaticLayer('background_layer', tiles, 0, 0);
     // this.map.setCollisionBetween(20, 39);
