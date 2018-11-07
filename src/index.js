@@ -5,12 +5,12 @@ import 'spectre.css';
 
 import './less/main.less';
 
-import { MapScene } from './scenes/map';
+import { GameScene } from './scenes/game';
 
 const gameConfig = {
   width: 1024,
   height: 768,
-  scene: MapScene
+  scene: GameScene
 };
 
 new Phaser.Game(gameConfig);
