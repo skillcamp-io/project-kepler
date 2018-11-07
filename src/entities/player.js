@@ -28,7 +28,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       d: D,
     });
 
-    this.setScale(1.5);
+    this.setScale(1);
     this.setCollideWorldBounds(true);
   }
 
