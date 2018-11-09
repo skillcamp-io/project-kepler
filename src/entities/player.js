@@ -7,6 +7,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.scene = scene;
     this.animationName = 'player-front-walk';
     this.vel = 200;
+    this.sfx = {
+      walk: new Audio("/assets/audio/footsteps.wav")
+    };
+
+    this.sfx.walk.volume = 0.3;
+    this.sfx.walk.loop = true;
 
     this.anims.play(this.animationName, true);
 
@@ -45,6 +51,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.setFlipX(true);
       this.animationName = 'player-side-walk';
       this.anims.play(this.animationName, true, 0);
+      this.sfx.walk.play()
     }
 
     else if (right.isDown || d.isDown) {
@@ -52,12 +59,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.setFlipX(false);
       this.animationName = 'player-side-walk';
       this.anims.play(this.animationName, true, 0);
+      this.sfx.walk.play()
     }
 
     else if (up.isDown || w.isDown) {
       this.body.setVelocityY(-this.vel);
       this.animationName = 'player-back-walk';
       this.anims.play(this.animationName, true, 0);
+      this.sfx.walk.play()
 
     }
 
@@ -65,12 +74,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityY(this.vel);
       this.animationName = 'player-front-walk';
       this.anims.play(this.animationName, true, 0);
+      this.sfx.walk.play()
 
     }
 
     else if (this.anims.isPlaying) {
       this.anims.setProgress(0);
       this.anims.stop()
+      this.sfx.walk.pause()
     }
   }
 }
