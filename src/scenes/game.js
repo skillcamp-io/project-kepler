@@ -11,7 +11,7 @@ class GameScene extends Phaser.Scene {
     this.createAnimations();
     this.setUpMap();
 
-    this.player = new Player(this, 0, 0, { key: 'player' });
+    this.player = new Player(this, 100, 100, { key: 'player' });
 
     this.physics.add.collider(this.player, this.background_layer);
 

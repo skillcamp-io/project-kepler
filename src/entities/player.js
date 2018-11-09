@@ -5,13 +5,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, config.key);
 
     this.scene = scene;
-    this.lastAnim = null;
+    this.animationName = 'player-front-walk';
     this.vel = 200;
 
-    this.play('player-idle');
+    this.anims.play(this.animationName, true);
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    this.setScale(1);
+    this.setCollideWorldBounds(true);
 
     const {
       LEFT, RIGHT, UP, DOWN, W, S, A, D,
@@ -27,9 +29,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       a: A,
       d: D,
     });
-
-    this.setScale(1);
-    this.setCollideWorldBounds(true);
   }
 
   preUpdate(time, delta) {
@@ -39,45 +38,39 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       left, right, up, down, w, s, a, d,
     } = this.keys;
 
-    let animationName = 'player-idle';
-
     this.body.setVelocity(0, 0);
 
     if (left.isDown || a.isDown) {
       this.body.setVelocityX(-this.vel);
       this.setFlipX(true);
+      this.animationName = 'player-side-walk';
+      this.anims.play(this.animationName, true, 0);
     }
 
-    if (right.isDown || d.isDown) {
+    else if (right.isDown || d.isDown) {
       this.body.setVelocityX(this.vel);
       this.setFlipX(false);
+      this.animationName = 'player-side-walk';
+      this.anims.play(this.animationName, true, 0);
     }
 
-    if (up.isDown || w.isDown) {
-      this.body.setVelocityY(-this.vel);
-    }
-
-    if (down.isDown || s.isDown) {
-      this.body.setVelocityY(this.vel);
-    }
-
-
-    if(left.isDown || right.isDown || a.isDown || d.isDown){
-      animationName = 'player-side-walk';
-    }
-    else if (down.isDown || s.isDown) {
-      animationName = 'player-front-walk';
-    }
     else if (up.isDown || w.isDown) {
-      animationName = 'player-back-walk';
-    }
-    else {
-      animationName = 'player-idle';
+      this.body.setVelocityY(-this.vel);
+      this.animationName = 'player-back-walk';
+      this.anims.play(this.animationName, true, 0);
+
     }
 
-    if (this.lastAnim !== animationName) {
-      this.lastAnim = animationName;
-      this.anims.play(animationName, true);
+    else if (down.isDown || s.isDown) {
+      this.body.setVelocityY(this.vel);
+      this.animationName = 'player-front-walk';
+      this.anims.play(this.animationName, true, 0);
+
+    }
+
+    else if (this.anims.isPlaying) {
+      this.anims.setProgress(0);
+      this.anims.stop()
     }
   }
 }
