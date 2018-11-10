@@ -84,6 +84,8 @@ class GameScene extends Phaser.Scene {
     });
 
     this.physics.add.collider(this.player, this.background_layer);
+    this.physics.add.collider(this.plant, this.background_layer);
+
 
     this.setUpCamera();
   }

@@ -6,6 +6,12 @@ class Plant extends Phaser.Physics.Arcade.Sprite {
 
     this.scene = scene;
 
+    this.animationName = 'player-back-walk'
+    
+    console.log(this.animationName)
+
+    this.anims.play(this.animationName)
+
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.setScale(1);
@@ -13,7 +19,8 @@ class Plant extends Phaser.Physics.Arcade.Sprite {
 
   }
 
-  preUpdate(time, delta) {}
+  preUpdate(time, delta) {
+  }
 }
 
 export default Plant;
