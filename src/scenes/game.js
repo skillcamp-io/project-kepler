@@ -78,7 +78,6 @@ class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.load.image('plant','../../assets/spritesheets/Bush.png')
     
   }
   create() {
