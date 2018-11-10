@@ -8,7 +8,7 @@ class GameScene extends Phaser.Scene {
     });
     this.map = null;
   }
-  
+
   preload() {
     // Create the animations we need from the player spritesheet
     this.anims.create({
@@ -85,6 +85,7 @@ class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.background_layer);
 
     this.setUpCamera();
+
   }
 
   // TODO: Move this to a preload scene
