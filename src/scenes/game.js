@@ -11,12 +11,6 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.anims.create({
-      key: 'plant',
-      frames: [{key: 'plant_idle' , frame: 1}],
-      frameRate: 6,
-    });
-    
     // Create the animations we need from the player spritesheet
     this.anims.create({
       key: 'player-idle',
