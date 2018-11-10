@@ -11,6 +11,7 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
+    
     // Create the animations we need from the player spritesheet
     this.anims.create({
       key: 'player-idle',
@@ -77,7 +78,9 @@ class GameScene extends Phaser.Scene {
   create() {
     this.setUpMap();
 
-    this.plant = new Plant(this, 350, 450)
+    this.plant = new Plant(this, 350, 450 , {
+      key: 'plant'
+    })
 
     this.add.existing(this.plant);
     
@@ -86,12 +89,13 @@ class GameScene extends Phaser.Scene {
     });
     
     this.physics.add.collider(this.player, this.background_layer);
-    this.physics.add.collider(this.player,this.plant);
-
+    this.physics.add.collider(this.player, this.plant , function(){
+      console.log('collide')
+    });
+    
     this.setUpCamera();
-
+    
   }
-
 
   setUpMap() {
     this.map = this.make.tilemap({
