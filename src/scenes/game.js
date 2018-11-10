@@ -82,6 +82,7 @@ class GameScene extends Phaser.Scene {
   }
   create() {
     this.setUpMap();
+    this.add.existing(new Plant(this, 264, 350));
 
     this.player = new Player(this, 100, 100, {
       key: 'player'
@@ -97,7 +98,6 @@ class GameScene extends Phaser.Scene {
 
     this.setUpCamera();
 
-    this.add.existing(new Plant(this, 264, 250));
   }
 
 
