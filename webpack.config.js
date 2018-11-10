@@ -1,7 +1,38 @@
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+// Probably not ideal, but this way we can use MiniCssExtractPlugin when the env is Prod
+const isProduction = process.env.NODE_ENV === 'production';
+
+const plugins = [
+  // Copy over our assets so they're publicly available
+  new CopyWebpackPlugin([
+    {
+      from: path.resolve(__dirname, 'assets', '**', '*'),
+      to: path.resolve(__dirname, 'build')
+    }
+  ]),
+  // We define a few global vars, necessary so Phaser works with Webpack
+  new webpack.DefinePlugin({
+    'typeof CANVAS_RENDERER': JSON.stringify(true),
+    'typeof WEBGL_RENDERER': JSON.stringify(true)
+  }),
+  // HtmlWebpackPlugin handles injecting our bundles and creating the index.
+  new HtmlWebpackPlugin({
+    title: 'Project Kepler',
+    template: 'src/html/index.html',
+    hash: true
+  })
+];
+
+// If we're in prod, use the MiniCssExtractPlugin to extract the css per js file (to lazy load our css)
+// Probably overkill, we can remove this
+if (isProduction) {
+  plugins.push(new MiniCssExtractPlugin());
+}
 
 module.exports = {
   devtool: 'source-map',
@@ -26,7 +57,19 @@ module.exports = {
       },
       {
         test: [ /\.vert$/, /\.frag$/ ]
-      }
+      },
+      {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
+      },
+      {
+        test: /\.less$/,
+        use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader',
+            'less-loader'
+        ],
+      },
     ]
   },
 
@@ -34,19 +77,9 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'build')
   },
 
-  plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, 'assets', '**', '*'),
-        to: path.resolve(__dirname, 'build')
-      }
-    ]),
-    new webpack.DefinePlugin({
-      'typeof CANVAS_RENDERER': JSON.stringify(true),
-      'typeof WEBGL_RENDERER': JSON.stringify(true)
-    }),
-    new HtmlWebpackPlugin()
-  ],
+  plugins: plugins,
+
+  mode: isProduction ? 'production' : 'development',
 
   optimization: {
     splitChunks: {
