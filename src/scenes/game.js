@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../entities/player';
+import Plant from '../entities/plant';
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -72,14 +73,14 @@ class GameScene extends Phaser.Scene {
     });
   }
   create() {
-
-
-    // MOVED ANIMS TO PRELOAD
-    // this.createAnimations();
     this.setUpMap();
 
     this.player = new Player(this, 100, 100, {
       key: 'player'
+    });
+    
+    this.plant = new Plant(this, 100, 100, {
+      key: 'plant'
     });
 
     this.physics.add.collider(this.player, this.background_layer);
