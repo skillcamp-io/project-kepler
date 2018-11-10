@@ -11,6 +11,12 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
+    this.anims.create({
+      key: 'plant',
+      frames: [{key: 'plant_idle' , frame: 1}],
+      frameRate: 6,
+    });
+    
     // Create the animations we need from the player spritesheet
     this.anims.create({
       key: 'player-idle',
@@ -71,6 +77,9 @@ class GameScene extends Phaser.Scene {
       frameRate: 14,
       repeat: -1,
     });
+
+    this.load.image('plant','../../assets/spritesheets/Bush.png')
+    
   }
   create() {
     this.setUpMap();
@@ -88,6 +97,8 @@ class GameScene extends Phaser.Scene {
 
 
     this.setUpCamera();
+
+    this.add.existing(new Plant(this, 264, 250));
   }
 
 
