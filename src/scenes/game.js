@@ -85,10 +85,7 @@ class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.background_layer);
 
     this.setUpCamera();
-
   }
-
-  // TODO: Move this to a preload scene
 
 
   setUpMap() {
