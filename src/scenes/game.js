@@ -11,7 +11,7 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    
+
     // Create the animations we need from the player spritesheet
     this.anims.create({
       key: 'player-idle',
@@ -73,28 +73,35 @@ class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    
+
   }
   create() {
     this.setUpMap();
 
-    this.plant = new Plant(this, 350, 450 , {
-      key: 'plant'
-    })
+    this.plant = []
 
-    this.add.existing(this.plant);
-    
+    // MAKE A LOOP WHERE EACH PLANT IS PUSHED TO THE ARRAY THIS.PLANT
+    for (var i = 0; i < 5; i++) {
+      this.plant.push(new Plant(this, Math.random() * 400, Math.random() * 400, {
+        key: 'plant'
+      }))
+    }
+
     this.player = new Player(this, 100, 100, {
       key: 'player'
     });
-    
+
     this.physics.add.collider(this.player, this.background_layer);
-    this.physics.add.collider(this.player, this.plant , function(){
-      console.log('collide')
-    });
     
+    // ADD A COLIDER FOR EVERY PLANT
+    for(var i = 0; i < this.plant.length; i++){
+      this.physics.add.collider(this.player, this.plant[i], function () {
+        console.log('collide')
+      });
+    }
+
     this.setUpCamera();
-    
+
   }
 
   setUpMap() {
