@@ -83,19 +83,19 @@ class GameScene extends Phaser.Scene {
   create() {
     this.setUpMap();
 
+    this.plant = new Plant(this, 350, 450)
+
+    this.add.existing(this.plant);
     
     this.player = new Player(this, 100, 100, {
       key: 'player'
     });
     
-    this.plant = new Plant(this, 264, 350)
-    
-    this.add.existing(this.plant);
-    
-
     this.physics.add.collider(this.player, this.background_layer);
-    this.physics.add.overlap(this.player,this.plant);
+    this.physics.add.collider(this.player,this.plant);
 
+
+    console.log(this.plant)
 
     this.setUpCamera();
 
