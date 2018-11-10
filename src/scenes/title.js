@@ -14,6 +14,9 @@ class TitleScene extends Phaser.Scene {
     this.load.spritesheet('player_back_walk', 'assets/spritesheets/astro_backward.png', { frameWidth: 41.8, frameHeight: 50 });
     this.load.spritesheet('player_dead', 'assets/spritesheets/player_dead.png', { frameWidth: 21, frameHeight: 20 });
     this.load.spritesheet('player_hurt', 'assets/spritesheets/player_hurt.png', { frameWidth: 20, frameHeight: 20 });
+    this.load.image('plant','../../assets/spritesheets/bush_small.png')
+
+
   }
 
   create() {
