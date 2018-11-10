@@ -10,7 +10,8 @@ class Plant extends Phaser.Physics.Arcade.Sprite {
 
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
-    
+
+    this.setScale(0.5);
   }
 }
 
