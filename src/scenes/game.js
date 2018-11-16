@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../entities/player';
+import UFO from '../entities/UFO';
 import Plant from '../entities/plant';
 
 class GameScene extends Phaser.Scene {
@@ -18,6 +19,16 @@ class GameScene extends Phaser.Scene {
         end: 12
       }),
       frameRate: 6,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'ufo-float',
+      frames: this.anims.generateFrameNumbers('ufo', {
+        start: 0,
+        end: 15
+      }),
+      frameRate: 15,
       repeat: -1,
     });
 
@@ -98,8 +109,13 @@ class GameScene extends Phaser.Scene {
       key: 'player'
     });
 
+    this.ufo = new UFO(this, 200, 200, {
+      key: 'ufo'
+    });
+
     this.physics.add.collider(this.player, this.background_layer);
     this.physics.add.collider(this.plant, this.background_layer);
+    this.physics.add.collider(this.ufo, this.background_layer);
 
     this.setUpCamera();
 
@@ -107,7 +123,8 @@ class GameScene extends Phaser.Scene {
 
   update(){
     this.physics.world.collide(this.player, this.plant);
-    this.physics.world.collide(this.plant, this.plant);
+    this.physics.world.collide(this.player, this.ufo);
+    this.physics.world.collide(this.ufo, this.plant);
   }
 
 
