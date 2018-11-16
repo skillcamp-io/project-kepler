@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../entities/player';
-import UFO from '../entities/UFO';
+import UFO from '../entities/ufo';
 import Plant from '../entities/plant';
 
 class GameScene extends Phaser.Scene {
