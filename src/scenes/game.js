@@ -87,7 +87,7 @@ class GameScene extends Phaser.Scene {
   create() {
     this.setUpMap();
 
-    this.createEnemyGroup(20);
+    this.createEnemyGroup(30);
 
     this.createPlantGroup(30);
     
@@ -131,10 +131,10 @@ class GameScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, 0.8, 0.8);
   }
 
-  createEnemyGroup(numberOfEnmies) {
+  createEnemyGroup(numberOfEnemies) {
     this.ufo = this.physics.add.group();
 
-    for( let i = 1; i < 20 ; i++){
+    for( let i = 1; i < numberOfEnemies ; i++){
       const childUFO = new UFO(this, i * 200, 200, {
         key: `ufo_emeny`
       });
@@ -143,19 +143,19 @@ class GameScene extends Phaser.Scene {
 
       childUFO.setBounce(1);
       childUFO.setCollideWorldBounds(true);
-      childUFO.setVelocity((Math.random() - 0.5) * 400 + 200, (Math.random() - 0.5) * 400 + 200);
+      childUFO.setVelocity((Math.random() - 0.5) * 400 + 300, (Math.random() - 0.5) * 400 + 300);
     }
 
     Phaser.Actions.RandomRectangle(
       this.ufo.getChildren(),
-      new Phaser.Geom.Rectangle(100, 100, 1800, 1800) // (x, y, width, height)
+      new Phaser.Geom.Rectangle(100, 100, 1600, 1600) // (x, y, width, height)
     )
   }
 
   createPlantGroup(numberOfPlants) {
     this.plant = this.physics.add.group({
       key: 'plant',
-      frameQuantity: 20, // number of plants
+      frameQuantity: numberOfPlants, // number of plants
       immovable: true
     });
 
