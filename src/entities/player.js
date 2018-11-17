@@ -6,7 +6,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     this.scene = scene;
     this.animationName = 'player-front-walk';
-    this.vel = 200;
+    this.vel = 400;
     this.sfx = {
       walk: new Audio("/assets/audio/footsteps.wav"),
     };
