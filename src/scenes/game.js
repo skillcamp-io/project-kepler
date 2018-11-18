@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Player from '../entities/player';
 import UFO from '../entities/ufo';
+import CryptoMiner from '../entities/cryptominer';
 import Plant from '../entities/plant';
 
 class GameScene extends Phaser.Scene {
@@ -82,7 +83,7 @@ class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    
+
   }
   create() {
     this.setUpMap();
@@ -90,12 +91,16 @@ class GameScene extends Phaser.Scene {
     this.createEnemyGroup(30);
 
     this.createPlantGroup(30);
-    
+
     this.player = new Player(this, 100, 100, {
       key: 'player'
     });
+    this.cryptominer = new CryptoMiner(this, 200, 200, {
+      key: 'cryptominer'
+    });
 
     this.physics.add.collider(this.player, this.background_layer);
+    this.physics.add.collider(this.cryptominer, this.background_layer);
     this.physics.add.collider(this.plant, this.background_layer);
     this.physics.add.collider(this.ufo, this.background_layer);
 
@@ -106,6 +111,7 @@ class GameScene extends Phaser.Scene {
   update(){
     this.physics.world.collide(this.player, this.plant);
     this.physics.world.collide(this.player, this.ufo);
+    this.physics.world.collide(this.player, this.cryptominer);
     this.physics.world.collide(this.ufo, this.plant);
     this.physics.world.collide(this.ufo, this.ufo);
   }
