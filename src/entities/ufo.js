@@ -8,7 +8,6 @@ class UFO extends Phaser.Physics.Arcade.Sprite {
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
-
   }
 
   preUpdate(time, delta) {
@@ -17,3 +16,5 @@ class UFO extends Phaser.Physics.Arcade.Sprite {
 }
 
 export default UFO;
+
+// TODO, add a healthbar: http://labs.phaser.io/edit.html?src=src\game%20objects\graphics\health%20bars%20demo.js

@@ -13,15 +13,16 @@ class TitleScene extends Phaser.Scene {
     this.load.spritesheet('player_side_walk', 'assets/spritesheets/astro_side.png', { frameWidth: 36.5, frameHeight: 50 });
     this.load.spritesheet('player_front_walk', 'assets/spritesheets/astro_forward.png', { frameWidth: 41.8, frameHeight: 50 });
     this.load.spritesheet('player_back_walk', 'assets/spritesheets/astro_backward.png', { frameWidth: 41.8, frameHeight: 50 });
-    this.load.spritesheet('player_dead', 'assets/spritesheets/player_dead.png', { frameWidth: 21, frameHeight: 20 });
-    this.load.spritesheet('player_hurt', 'assets/spritesheets/player_hurt.png', { frameWidth: 20, frameHeight: 20 });
-    this.load.image('plant','../../assets/spritesheets/bush_small.png')
-
-
+    this.load.image('plant', '../../assets/spritesheets/bush_small.png');
+    this.load.image('cursor', '../../assets/spritesheets/cursor.png');
   }
 
   create() {
     this.scene.start('GameScene');
+
+    // Game start, show UI
+    const gameUI = document.querySelector('.game-ui');
+    gameUI.classList.remove('hidden');
   }
 }
 

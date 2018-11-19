@@ -8,7 +8,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.animationName = 'player-front-walk';
     this.vel = 400;
     this.sfx = {
-      walk: new Audio("/assets/audio/footsteps.wav"),
+      walk: new Audio('/assets/audio/footsteps.wav'),
     };
 
     this.sfx.walk.volume = 0.5;
@@ -51,37 +51,27 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.setFlipX(true);
       this.animationName = 'player-side-walk';
       this.anims.play(this.animationName, true, 0);
-      this.sfx.walk.play()
-    }
-
-    else if (right.isDown || d.isDown) {
+      this.sfx.walk.play();
+    } else if (right.isDown || d.isDown) {
       this.body.setVelocityX(this.vel);
       this.setFlipX(false);
       this.animationName = 'player-side-walk';
       this.anims.play(this.animationName, true, 0);
-      this.sfx.walk.play()
-    }
-
-    else if (up.isDown || w.isDown) {
+      this.sfx.walk.play();
+    } else if (up.isDown || w.isDown) {
       this.body.setVelocityY(-this.vel);
       this.animationName = 'player-back-walk';
       this.anims.play(this.animationName, true, 0);
-      this.sfx.walk.play()
-
-    }
-
-    else if (down.isDown || s.isDown) {
+      this.sfx.walk.play();
+    } else if (down.isDown || s.isDown) {
       this.body.setVelocityY(this.vel);
       this.animationName = 'player-front-walk';
       this.anims.play(this.animationName, true, 0);
-      this.sfx.walk.play()
-
-    }
-
-    else if (this.anims.isPlaying) {
+      this.sfx.walk.play();
+    } else if (this.anims.isPlaying) {
       this.anims.setProgress(0);
-      this.anims.stop()
-      this.sfx.walk.pause()
+      this.anims.stop();
+      this.sfx.walk.pause();
     }
   }
 }
