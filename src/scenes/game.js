@@ -1,8 +1,18 @@
 import Phaser from 'phaser';
 
+import $ from 'cash-dom';
+
 import Player from '../entities/player';
 import UFO from '../entities/ufo';
 import Cursor from '../entities/cursor';
+import Plant from '../entities/plant';
+
+const AVAILABLE_UNITS = {
+  plant_1: 'plant',
+  plant_2: 'plant',
+  plant_3: 'plant',
+  plant_4: 'plant',
+};
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -13,9 +23,14 @@ class GameScene extends Phaser.Scene {
     // This will be the Tiled map with the background
     this.map = null;
 
-    // This will be our custom map where we will hold a reference to the position in the map and what object is there. ie:
-    // [{x: 100, y: 100, item: plant }] - Make sure that this is cleaned when a plant is destroyed, easy way for memory to leak here
-    this.plantMap = null;
+    // Here we will hold a reference to the position in the map and what object is there.
+    // ie: { x_y: Plant}
+    // We'll use the x and y coords as the index as it's faster to search for
+    // Make sure that this is cleaned when a plant is destroyed, easy way for memory to leak here
+    this.unitsBuilt = {};
+
+    // Track which unit we're going to build
+    this.unitToBuild = null;
   }
 
   preload() {
@@ -32,16 +47,40 @@ class GameScene extends Phaser.Scene {
 
     this.setUpCamera();
 
+    this.setUpEventListeners();
+
     this.setUpCursor();
   }
 
   update() {
-    this.physics.world.collide(this.player, this.plant);
+    this.physics.world.collide(this.player, this.plantGroup);
     this.physics.world.collide(this.player, this.ufo);
-    this.physics.world.collide(this.ufo, this.plant);
+    this.physics.world.collide(this.ufo, this.plantGroup);
     this.physics.world.collide(this.ufo, this.ufo);
 
     this.handleCursor();
+  }
+
+  setUpEventListeners() {
+    /**
+     * When we receive the "build" event, check that the type is available and change the cursor to it so we're ready to place
+     */
+    $(document).on('build_unit', (e) => {
+      const unitType = e.data.type;
+
+      if (AVAILABLE_UNITS.hasOwnProperty(unitType)) {
+        this.cursor.changeCursorImage(AVAILABLE_UNITS[unitType]);
+
+        // Set the unit we are going to build
+        this.unitToBuild = AVAILABLE_UNITS[unitType];
+      }
+    });
+
+    // When we cancel building, reset the cursor image and alpha
+    $(document).on('build_unit_canceled', () => {
+      this.cursor.resetCursor();
+      this.unitToBuild = null;
+    });
   }
 
   handleCursor() {
@@ -55,14 +94,12 @@ class GameScene extends Phaser.Scene {
     this.cursor.x = this.map.tileToWorldX(pointerTileX);
     this.cursor.y = this.map.tileToWorldY(pointerTileY);
 
-    if (this.input.manager.activePointer.isDown) {
-      // this.map.putTileAt(selectedTile, pointerTileX, pointerTileY);
-      console.log('PLACE TILE HERE');
+    if (this.input.manager.activePointer.justUp) {
+      this.handleGameClick(this.cursor.x, this.cursor.y);
     }
-
-    // this.cursor.setVisible(!this.checkCollision(pointerTileX, pointerTileY));
   }
 
+  // TODO: Make sure that we can add our units where we clicked, use this to verify
   checkCollision(x, y) {
     const tile = this.map.getTileAt(x, y);
     return tile.properties.collide === true;
@@ -74,7 +111,7 @@ class GameScene extends Phaser.Scene {
     });
 
     this.physics.add.collider(this.player, this.background_layer);
-    this.physics.add.collider(this.plant, this.background_layer);
+    this.physics.add.collider(this.plantGroup, this.background_layer);
     this.physics.add.collider(this.ufo, this.background_layer);
   }
 
@@ -107,7 +144,9 @@ class GameScene extends Phaser.Scene {
 
   createEnemyGroup(numberOfEnemies) {
     this.ufo = this.physics.add.group();
-
+    
+    // TODO: Enable this again, add them randomly and move to the center. Use A* pathfinding (see initial commits), not random bouncing
+    /*
     for (let i = 1; i < numberOfEnemies; i++) {
       const childUFO = new UFO(this, i * 200, 200, {
         key: 'ufo_enemy',
@@ -124,20 +163,43 @@ class GameScene extends Phaser.Scene {
       this.ufo.getChildren(),
       new Phaser.Geom.Rectangle(100, 100, 1600, 1600), // (x, y, width, height)
     );
+    */
   }
 
   createPlantGroup(numberOfPlants) {
-    this.plant = this.physics.add.group({
-      key: 'plant',
-      frameQuantity: numberOfPlants, // number of plants
-      immovable: true,
-    });
+    this.plantGroup = this.add.group();
 
-    // place plants randomly in rectangle
-    // Phaser.Actions.RandomRectangle(
-    //   this.plant.getChildren(),
-    //   new Phaser.Geom.Rectangle(100, 100, 1800, 1800), // (x, y, width, height)
-    // );
+    for (let i = 0; i < numberOfPlants; i++) {
+      const plantObj = new Plant(this, 0, 0, { key: 'plant', active: false });
+      this.plantGroup.add(plantObj);
+    }
+
+    // TODO: Use createMultiple but with our custom Plant class
+  }
+
+  storeBuiltUnit(x, y, item) {
+    const coord = `${x}_${y}`;
+    this.unitsBuilt[coord] = item;
+  }
+
+  handleGameClick(x, y) {
+    const coord = `${x}_${y}`;
+
+    if (this.unitToBuild !== null && !this.unitsBuilt.hasOwnProperty(coord)) {
+
+      // TODO: Here we will build different type of units depending on the type (this.unitToBuild)
+      const alien = this.plantGroup.get(x + this.map.tileWidth / 2, y + this.map.tileHeight / 2);
+      alien.setActive(true).setVisible(true);
+
+      this.storeBuiltUnit(x, y, alien);
+
+      console.log(this.unitsBuilt);
+
+      // After building, reset the cursor and disable the building finished
+      // TODO: Or not?
+      // this.cursor.resetCursor();
+      // this.unitToBuild = null;
+    }
   }
 
   createAnimations() {

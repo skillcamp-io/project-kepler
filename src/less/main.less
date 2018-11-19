@@ -6,10 +6,40 @@ body{
 }
 
 .game-ui {
-    background-color: black;
-    border: 1px solid black;
+    background-color: rgba(247,248,249,.65);
     bottom: 0;
     left: 0;
+    padding-bottom: 20px;
     position: absolute;
+    user-select: none;
     width: 100%;
+
+    h3 {
+        text-align: center;
+        padding-top: 5px;
+    }
+
+    .unit-card {
+        background: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 16px;
+        text-align: center;
+
+        &.selected {
+            background: #dadee4;
+        }
+
+        .title {
+            border-bottom: 1px solid #000;
+        }
+
+        .image {
+            margin: 0 auto;
+            img {
+                padding-top: 20px;
+            }
+        }
+    }
+
 }

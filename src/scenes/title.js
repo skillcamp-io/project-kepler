@@ -19,6 +19,10 @@ class TitleScene extends Phaser.Scene {
 
   create() {
     this.scene.start('GameScene');
+
+    // Game start, show UI
+    const gameUI = document.querySelector('.game-ui');
+    gameUI.classList.remove('hidden');
   }
 }
 
