@@ -8,6 +8,10 @@ class Ship extends Phaser.Physics.Arcade.Sprite {
 		this.setTexture('ship');
 		this.setPosition(x, y);
 	}
+
+	preUpdate(time, delta) {
+		super.preUpdate(time, delta);
+	}
 }
 
 export default Ship;

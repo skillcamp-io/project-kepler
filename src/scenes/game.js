@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import Player from '../entities/player';
 import UFO from '../entities/ufo';
 import Plant from '../entities/plant';
+import Ship from '../entities/ship';
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -90,6 +91,8 @@ class GameScene extends Phaser.Scene {
     this.createEnemyGroup(30);
 
     this.createPlantGroup(30);
+
+    this.createShip();
     
     this.player = new Player(this, 100, 100, {
       key: 'player'
@@ -97,6 +100,7 @@ class GameScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, this.background_layer);
     this.physics.add.collider(this.plant, this.background_layer);
+    this.physics.add.collider(this.ship, this.background_layer);
     this.physics.add.collider(this.ufo, this.background_layer);
 
     this.setUpCamera();
@@ -106,8 +110,9 @@ class GameScene extends Phaser.Scene {
   update(){
     this.physics.world.collide(this.player, this.plant);
     this.physics.world.collide(this.player, this.ufo);
+    this.physics.world.collide(this.player, this.ship);
     this.physics.world.collide(this.ufo, this.plant);
-    this.physics.world.collide(this.ufo, this.ufo);
+    this.physics.world.collide(this.ufo, this.ship);
   }
 
   setUpMap() {
@@ -164,6 +169,19 @@ class GameScene extends Phaser.Scene {
     Phaser.Actions.RandomRectangle(
       this.plant.getChildren(),
       new Phaser.Geom.Rectangle(100, 100, 1800, 1800) // (x, y, width, height)
+    )
+  }
+
+  createShip() {
+    this.ship = this.physics.add.group({
+      key: 'ship',
+      frameQuantity: 1,
+      immovable: true
+    });
+
+    Phaser.Actions.RandomRectangle(
+      this.ship.getChildren(),
+      new Phaser.Geom.Rectangle(100, 100, 1800, 1800)
     )
   }
 }
