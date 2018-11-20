@@ -16,7 +16,7 @@ class TitleScene extends Phaser.Scene {
     this.load.spritesheet('player_dead', 'assets/spritesheets/player_dead.png', { frameWidth: 21, frameHeight: 20 });
     this.load.spritesheet('player_hurt', 'assets/spritesheets/player_hurt.png', { frameWidth: 20, frameHeight: 20 });
     this.load.image('plant','../../assets/spritesheets/bush_small.png')
-    this.load.image('cryptominer','../../assets/spritesheets/cryptominer.png')
+    this.load.image('cryptominer','../../assets/spritesheets/newminer.png')
 
 
   }

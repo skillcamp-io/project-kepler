@@ -7,6 +7,7 @@ class CryptoMiner extends Phaser.Physics.Arcade.Sprite {
     // USE THE TEXTURE PLANT (FROM TITLE.JS)
     this.setTexture('cryptominer');
     this.setPosition(x, y);
+    scene.add.existing(this);
   }
 
   preUpdate(time, delta) {

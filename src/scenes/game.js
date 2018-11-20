@@ -95,7 +95,7 @@ class GameScene extends Phaser.Scene {
     this.player = new Player(this, 100, 100, {
       key: 'player'
     });
-    this.cryptominer = new CryptoMiner(this, 200, 200, {
+    this.cryptominer = new CryptoMiner(this, 500, 400, {
       key: 'cryptominer'
     });
 
