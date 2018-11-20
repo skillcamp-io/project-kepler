@@ -17,10 +17,15 @@ class TitleScene extends Phaser.Scene {
     this.load.spritesheet('player_hurt', 'assets/spritesheets/player_hurt.png', { frameWidth: 20, frameHeight: 20 });
     this.load.image('plant', '../../assets/spritesheets/bush_small.png')
     this.load.image('ship', '../../assets/spritesheets/ship.png')
+    this.load.image('cursor', '../../assets/spritesheets/cursor.png')
   }
 
   create() {
     this.scene.start('GameScene');
+
+    // Game start, show UI
+    const gameUI = document.querySelector('.game-ui');
+    gameUI.classList.remove('hidden');
   }
 }
 

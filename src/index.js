@@ -5,6 +5,8 @@ import 'spectre.css';
 
 import './less/main.less';
 
+import './ui';
+
 import GameScene from './scenes/game';
 import TitleScene from './scenes/title';
 

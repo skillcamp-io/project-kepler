@@ -24,6 +24,7 @@
     "webpack-dev-server": "^3.1.8"
   },
   "dependencies": {
+    "cash-dom": "^2.3.9",
     "css-loader": "^1.0.1",
     "easystarjs": "^0.4.3",
     "less": "^3.8.1",
