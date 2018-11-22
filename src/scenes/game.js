@@ -15,6 +15,8 @@ const AVAILABLE_UNITS = {
   plant_4: 'plant',
 };
 
+const TIME_BETWEEN_WAVES = 60 * 2 * 1000; // 60 seconds, times 2, times 1000 milliseconds
+
 class GameScene extends Phaser.Scene {
   constructor() {
     super({
@@ -32,6 +34,11 @@ class GameScene extends Phaser.Scene {
 
     // Track which unit we're going to build
     this.unitToBuild = null;
+
+    // Current mode (building: true, fighting: false)
+    this.currentlyBuilding = true;
+
+    console.log(this);
   }
 
   preload() {
@@ -39,6 +46,7 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    // TODO: Figure out a way to clean this up. Or maybe this is the best way to initialize everything?
     this.setUpMap();
 
     this.createEnemyGroup(30);
@@ -51,7 +59,10 @@ class GameScene extends Phaser.Scene {
     this.setUpEventListeners();
 
     this.setUpCursor();
+
     this.setUpCryptoMiner();
+
+    this.setUpWaveTimer();
   }
 
   update() {
@@ -61,6 +72,7 @@ class GameScene extends Phaser.Scene {
     this.physics.world.collide(this.ufo, this.ufo);
 
     this.handleCursor();
+    this.handleTimerText();
   }
 
   setUpEventListeners() {
@@ -194,6 +206,12 @@ class GameScene extends Phaser.Scene {
   handleGameClick(x, y) {
     const coord = `${x}_${y}`;
 
+    //TODO: Make this prettier
+    if (!this.currentlyBuilding) {
+      alert('You should be fighting!');
+      return false;
+    }
+
     if (this.unitToBuild !== null && !this.unitsBuilt.hasOwnProperty(coord)) {
 
       // TODO: Here we will build different type of units depending on the type (this.unitToBuild)
@@ -209,6 +227,34 @@ class GameScene extends Phaser.Scene {
       // this.cursor.resetCursor();
       // this.unitToBuild = null;
     }
+  }
+
+  setUpWaveTimer() {
+    this.text = this.add.text(32, 32);
+    this.timedEvent = this.time.addEvent({
+      delay: TIME_BETWEEN_WAVES,
+      callback: this.timerCallback,
+      callbackScope: this,
+      loop: true,
+    });
+
+    this.gameModeText = this.add.text(this.cameras.main.width - 50, 32);
+    this.gameModeText.setText('Building');
+  }
+
+  timerCallback() {
+    console.log('TIMER!');
+    this.currentlyBuilding = !this.currentlyBuilding;
+  }
+
+  handleTimerText() {
+    const millis = TIME_BETWEEN_WAVES - (this.timedEvent.getElapsedSeconds().toFixed(0) * 1000);
+    const minutes = Math.floor(millis / 60000);
+    const seconds = ((millis % 60000) / 1000).toFixed(0);
+    const padding = seconds < 10 ? '0' : '';
+    const str = `${minutes}:${padding}${seconds}`;
+
+    this.text.setText(`Time to next wave: ${str}`);
   }
 
   createAnimations() {
