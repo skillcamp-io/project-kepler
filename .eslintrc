@@ -12,6 +12,7 @@
       "__DEV__": true
     },
     "rules": {
-      "no-prototype-builtins": 0
+      "no-prototype-builtins": 0,
+      "max-len": 0
     }
   }
