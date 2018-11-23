@@ -14,9 +14,6 @@ const AVAILABLE_UNITS = {
   plant_3: 'plant',
   plant_4: 'plant',
 };
-
-const TIME_BETWEEN_WAVES = 60 * 2 * 1000; // 60 seconds, times 2, times 1000 milliseconds
-
 class GameScene extends Phaser.Scene {
   constructor() {
     super({
@@ -72,7 +69,6 @@ class GameScene extends Phaser.Scene {
     this.physics.world.collide(this.ufo, this.ufo);
 
     this.handleCursor();
-    this.handleTimerText();
   }
 
   setUpEventListeners() {
@@ -84,6 +80,7 @@ class GameScene extends Phaser.Scene {
 
       if (AVAILABLE_UNITS.hasOwnProperty(unitType)) {
         this.cursor.changeCursorImage(AVAILABLE_UNITS[unitType]);
+        this.cursor.setVisible(true);
 
         // Set the unit we are going to build
         this.unitToBuild = AVAILABLE_UNITS[unitType];
@@ -93,6 +90,7 @@ class GameScene extends Phaser.Scene {
     // When we cancel building, reset the cursor image and alpha
     $(document).on('build_unit_canceled', () => {
       this.cursor.resetCursor();
+      this.cursor.setVisible(false);
       this.unitToBuild = null;
     });
   }
@@ -151,9 +149,13 @@ class GameScene extends Phaser.Scene {
   }
 
   setUpCursor() {
+    // Create an empty cursor, we'll use this when building units
     this.cursor = new Cursor(this, 0, 0, {
-      key: 'cursor',
+      key: 'cursor_pointer',
     });
+
+    this.cursor.setVisible(false);
+    this.input.setDefaultCursor('url(assets/spritesheets/cursor_pointer.png), pointer');
   }
 
   createEnemyGroup(numberOfEnemies) {
@@ -206,7 +208,7 @@ class GameScene extends Phaser.Scene {
   handleGameClick(x, y) {
     const coord = `${x}_${y}`;
 
-    //TODO: Make this prettier
+    // TODO: Make this prettier
     if (!this.currentlyBuilding) {
       alert('You should be fighting!');
       return false;
@@ -220,41 +222,11 @@ class GameScene extends Phaser.Scene {
 
       this.storeBuiltUnit(x, y, alien);
 
-      console.log(this.unitsBuilt);
-
       // After building, reset the cursor and disable the building finished
       // TODO: Or not?
       // this.cursor.resetCursor();
       // this.unitToBuild = null;
     }
-  }
-
-  setUpWaveTimer() {
-    this.text = this.add.text(32, 32);
-    this.timedEvent = this.time.addEvent({
-      delay: TIME_BETWEEN_WAVES,
-      callback: this.timerCallback,
-      callbackScope: this,
-      loop: true,
-    });
-
-    this.gameModeText = this.add.text(this.cameras.main.width - 50, 32);
-    this.gameModeText.setText('Building');
-  }
-
-  timerCallback() {
-    console.log('TIMER!');
-    this.currentlyBuilding = !this.currentlyBuilding;
-  }
-
-  handleTimerText() {
-    const millis = TIME_BETWEEN_WAVES - (this.timedEvent.getElapsedSeconds().toFixed(0) * 1000);
-    const minutes = Math.floor(millis / 60000);
-    const seconds = ((millis % 60000) / 1000).toFixed(0);
-    const padding = seconds < 10 ? '0' : '';
-    const str = `${minutes}:${padding}${seconds}`;
-
-    this.text.setText(`Time to next wave: ${str}`);
   }
 
   createAnimations() {
