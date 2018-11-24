@@ -24,6 +24,7 @@ const gameConfig = {
       debug: false,
     },
   },
+  parent: 'game',
 };
 
 // eslint-disable-next-line no-new

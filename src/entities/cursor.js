@@ -16,7 +16,7 @@ class Cursor extends Phaser.GameObjects.Sprite {
   }
 
   resetCursor() {
-    this.setTexture('cursor');
+    this.setTexture('cursor_pointer');
     this.setOrigin(0, 0);
     this.setAlpha(1);
   }

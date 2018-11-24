@@ -10,65 +10,49 @@
     </style>
   </head>
   <body>
-      <div class="game-ui hidden">
-          <h3>Build Menu</h3>
-          <div class="crypto-ui">Crypto Balance: 0</div>
-          <div class="container">
-              <div class="columns">
-                <div class="column col-3 col-xs-6">
-                  <div class="unit-card" data-unit-type='plant_1'>
-                    <div class="title">
-                        <div class="h5">Plant 1</div>
-                    </div>
-                    <div class="description">
-                      <span>Cost: 5</span>
-                    </div>
-                    <div class="image">
-                      <img src="/assets/spritesheets/bush_small.png">
-                    </div>
-                  </div>
-                </div>
-                <div class="column col-3 col-xs-6">
-                  <div class="unit-card" data-unit-type='plant_2'>
-                    <div class="title">
-                        <div class="h5">Plant 2</div>
-                    </div>
-                    <div class="description">
-                      <span>Cost: 5</span>
-                    </div>
-                    <div class="image">
-                      <img src="/assets/spritesheets/bush_small.png">
-                    </div>
-                  </div>
-                </div>
-              <div class="column col-3 col-xs-6">
-                <div class="unit-card" data-unit-type='plant_3'>
-                  <div class="title">
-                      <div class="h5">Plant 3</div>
-                  </div>
-                  <div class="description">
-                    <span>Cost: 5</span>
-                  </div>
-                  <div class="image">
-                    <img src="/assets/spritesheets/bush_small.png">
-                  </div>
-                </div>
-              </div>
-              <div class="column col-3 col-xs-6">
-                <div class="unit-card" data-unit-type='plant_4'>
-                  <div class="title">
-                      <div class="h5">Plant 4</div>
-                  </div>
-                  <div class="description">
-                    <span>Cost: 5</span>
-                  </div>
-                  <div class="image">
-                    <img src="/assets/spritesheets/bush_small.png">
-                  </div>
-                </div>
-              </div>
+    <div class="game-container">
+      <div id="game"></div>
+      <div class="build-ui hidden">
+        <div class="accordion">
+            <input type="checkbox" id="builing-menu" name="accordion-checkbox" hidden>
+            <label class="accordion-header" for="builing-menu">
+              <i class="icon icon-arrow-right mr-1"></i>
+              Build
+            </label>
+            <div class="accordion-body">
+              <ul class="menu">
+                <li class="divider" data-content="UNITS"></li>
+                <li class="menu-item">
+                  <a href="#" data-unit-type='plant'>
+                    <i class="icon icon-link"></i> Plant
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="#" data-unit-type='miner'>
+                    <i class="icon icon-link"></i> Miner
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="#" data-unit-type='plant_3'>
+                    <i class="icon icon-link"></i> Plant 3
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="#" data-unit-type='plant_4'>
+                    <i class="icon icon-link"></i> Plant 4
+                  </a>
+                </li>  
+              </ul>
             </div>
           </div>
       </div>
+      <div class="extra-game-info hidden">
+        <div class="info">
+          <div class="crypto-ui">Crypto Balance: 0</div>
+          <hr>
+          <div class="timer"></div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

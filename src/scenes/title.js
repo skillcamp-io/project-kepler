@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import $ from 'cash-dom';
 
 class TitleScene extends Phaser.Scene {
   constructor() {
@@ -16,14 +17,15 @@ class TitleScene extends Phaser.Scene {
     this.load.image('cryptominer','../../assets/spritesheets/cryptominer.png')
     this.load.image('plant', '../../assets/spritesheets/bush_small.png');
     this.load.image('cursor', '../../assets/spritesheets/cursor.png');
+    this.load.image('cursor_hand', '../../assets/spritesheets/cursor_hand.png');
+    this.load.image('cursor_pointer', '../../assets/spritesheets/cursor_pointer.png');
   }
 
   create() {
     this.scene.start('GameScene');
 
     // Game start, show UI
-    const gameUI = document.querySelector('.game-ui');
-    gameUI.classList.remove('hidden');
+    $('.extra-game-info, .build-ui').removeClass('hidden');
   }
 }
 

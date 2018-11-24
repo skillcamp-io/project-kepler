@@ -8,10 +8,6 @@ class Plant extends Phaser.GameObjects.Sprite {
 
     scene.add.existing(this);
   }
-
-  // preUpdate(time, delta) {
-  //   super.preUpdate(time, delta);
-  // }
 }
 
 export default Plant;
