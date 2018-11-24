@@ -13,6 +13,7 @@ class TitleScene extends Phaser.Scene {
     this.load.spritesheet('player_side_walk', 'assets/spritesheets/astro_side.png', { frameWidth: 36.5, frameHeight: 50 });
     this.load.spritesheet('player_front_walk', 'assets/spritesheets/astro_forward.png', { frameWidth: 41.8, frameHeight: 50 });
     this.load.spritesheet('player_back_walk', 'assets/spritesheets/astro_backward.png', { frameWidth: 41.8, frameHeight: 50 });
+    this.load.image('cryptominer','../../assets/spritesheets/cryptominer.png')
     this.load.image('plant', '../../assets/spritesheets/bush_small.png');
     this.load.image('cursor', '../../assets/spritesheets/cursor.png');
   }
