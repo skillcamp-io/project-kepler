@@ -4,6 +4,7 @@ import $ from 'cash-dom';
 
 import Player from '../entities/player';
 import UFO from '../entities/ufo';
+import CryptoMiner from '../entities/cryptominer';
 import Cursor from '../entities/cursor';
 import Plant from '../entities/plant';
 
@@ -50,6 +51,7 @@ class GameScene extends Phaser.Scene {
     this.setUpEventListeners();
 
     this.setUpCursor();
+    this.setUpCryptoMiner();
   }
 
   update() {
@@ -144,7 +146,7 @@ class GameScene extends Phaser.Scene {
 
   createEnemyGroup(numberOfEnemies) {
     this.ufo = this.physics.add.group();
-    
+
     // TODO: Enable this again, add them randomly and move to the center. Use A* pathfinding (see initial commits), not random bouncing
     /*
     for (let i = 1; i < numberOfEnemies; i++) {
@@ -176,6 +178,13 @@ class GameScene extends Phaser.Scene {
 
     // TODO: Use createMultiple but with our custom Plant class
   }
+    setUpCryptoMiner(numberOfMiners){
+    this.cryptominer = new CryptoMiner(this, 500, 400, {
+      key: 'cryptominer'
+    });
+
+
+    }
 
   storeBuiltUnit(x, y, item) {
     const coord = `${x}_${y}`;
