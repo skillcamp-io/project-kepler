@@ -3,16 +3,71 @@
   <head>
     <meta charset="utf-8"/>
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <style type="text/css" media="screen">
+      .hidden {
+          display: none;
+      }
+    </style>
   </head>
   <body>
-      <div class="game-ui">
-          <h3>Game UI</h3>
+      <div class="game-ui hidden">
+          <h3>Build Menu</h3>
           <div class="crypto-ui">Crypto Balance: 0</div>
-          <div class="action-container">
-            <button class="btn game-action-1">Do Something 1</button>
-            <button class="btn game-action-2">Do Something 2</button>
-            <button class="btn game-action-3">Do Something 3</button>
-            <button class="btn game-action-4">Do Something 4</button>
+          <div class="container">
+              <div class="columns">
+                <div class="column col-3 col-xs-6">
+                  <div class="unit-card" data-unit-type='plant_1'>
+                    <div class="title">
+                        <div class="h5">Plant 1</div>
+                    </div>
+                    <div class="description">
+                      <span>Cost: 5</span>
+                    </div>
+                    <div class="image">
+                      <img src="/assets/spritesheets/bush_small.png">
+                    </div>
+                  </div>
+                </div>
+                <div class="column col-3 col-xs-6">
+                  <div class="unit-card" data-unit-type='plant_2'>
+                    <div class="title">
+                        <div class="h5">Plant 2</div>
+                    </div>
+                    <div class="description">
+                      <span>Cost: 5</span>
+                    </div>
+                    <div class="image">
+                      <img src="/assets/spritesheets/bush_small.png">
+                    </div>
+                  </div>
+                </div>
+              <div class="column col-3 col-xs-6">
+                <div class="unit-card" data-unit-type='plant_3'>
+                  <div class="title">
+                      <div class="h5">Plant 3</div>
+                  </div>
+                  <div class="description">
+                    <span>Cost: 5</span>
+                  </div>
+                  <div class="image">
+                    <img src="/assets/spritesheets/bush_small.png">
+                  </div>
+                </div>
+              </div>
+              <div class="column col-3 col-xs-6">
+                <div class="unit-card" data-unit-type='plant_4'>
+                  <div class="title">
+                      <div class="h5">Plant 4</div>
+                  </div>
+                  <div class="description">
+                    <span>Cost: 5</span>
+                  </div>
+                  <div class="image">
+                    <img src="/assets/spritesheets/bush_small.png">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
       </div>
   </body>
