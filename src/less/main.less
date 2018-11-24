@@ -27,33 +27,17 @@ body {
             text-align: center;
             padding-top: 5px;
         }
-    
-        .unit-card {
-            background: #fff;
-            border-radius: 5px;
-            cursor: pointer;
-            padding: 16px;
-            text-align: center;
-    
-            &.selected {
-                background: #dadee4;
+
+        .accordion {
+            .accordion-header {
+                cursor: pointer;
             }
-    
-            .title {
-                border-bottom: 1px solid #000;
-            }
-    
-            .image {
-                margin: 0 auto;
-                img {
-                    padding-top: 20px;
-                }
+
+            .accordion-body {
+                margin: 0;
             }
         }
 
-        .accordion-body {
-            margin: 0;
-        }
     }
 
     .extra-game-info {
@@ -65,23 +49,6 @@ body {
         display: flex;
         flex-flow: row;
         padding: 0.2rem 0.4rem;
-        text-align: right;
-
-        .debug {
-            text-align: left;
-        }
-
-        .timer {
-            display: block;
-            padding: .2rem .4rem;
-            text-align: right;
-        }
+        text-align: left;
     }
-}
-
-.crypto-ui {
-    background-color: black;
-    color: #fff;
-    font-size: 4vmin;
-
 }

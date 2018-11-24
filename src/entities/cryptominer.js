@@ -1,18 +1,12 @@
 import Phaser from 'phaser';
 
-class CryptoMiner extends Phaser.Physics.Arcade.Sprite {
+class CryptoMiner extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, config) {
     super(scene, x, y, config.key);
 
-    // USE THE TEXTURE PLANT (FROM TITLE.JS)
-    this.setTexture('cryptominer');
-    this.setPosition(x, y);
+    this.active = config.active;
+
     scene.add.existing(this);
-  }
-
-  preUpdate(time, delta) {
-    super.preUpdate(time, delta);
-
   }
 }
 
