@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import $ from 'cash-dom';
+import EasyStar from "easystarjs";
 
 import Player from '../entities/player';
 import UFO from '../entities/ufo';
@@ -7,12 +8,14 @@ import CryptoMiner from '../entities/cryptominer';
 import Cursor from '../entities/cursor';
 import Plant from '../entities/plant';
 
+
 const AVAILABLE_UNITS = {
   plant: 'plant',
   miner: 'cryptominer',
   plant_3: 'plant',
   plant_4: 'plant',
 };
+
 class GameScene extends Phaser.Scene {
   constructor() {
     super({
@@ -41,20 +44,20 @@ class GameScene extends Phaser.Scene {
 
   create() {
     // TODO: Figure out a way to clean this up. Or maybe this is the best way to initialize everything?
+
+    // Create World
     this.setUpMap();
-
-    this.createEnemyGroup(150);
-    this.createPlantGroup(150);
-
     this.setUpPlayer();
-
     this.setUpCamera();
-
     this.setUpEventListeners();
-
     this.setUpCursor();
+    // this.setUpPathFinder();
 
-    this.setUpCryptoMiner(150);
+
+    // Create Entities
+    // this.createEnemyGroup(2);
+    // this.createPlantGroup(2);
+    // this.createCryptominerGroup(2);
   }
 
   update() {
@@ -171,41 +174,31 @@ class GameScene extends Phaser.Scene {
   createEnemyGroup(numberOfEnemies) {
     this.ufo = this.physics.add.group();
 
-    // TODO: Enable this again, add them randomly and move to the center. Use A* pathfinding (see initial commits), not random bouncing
-    /*
     for (let i = 1; i < numberOfEnemies; i++) {
-      const childUFO = new UFO(this, i * 200, 200, {
+      const childUFO = new UFO(this, 0, 0, {
         key: 'ufo_enemy',
       });
 
       this.ufo.add(childUFO);
 
       childUFO.setBounce(1);
-      childUFO.setCollideWorldBounds(true);
-      childUFO.setVelocity((Math.random() - 0.5) * 400 + 300, (Math.random() - 0.5) * 400 + 300);
     }
-
-    Phaser.Actions.RandomRectangle(
-      this.ufo.getChildren(),
-      new Phaser.Geom.Rectangle(100, 100, 1600, 1600), // (x, y, width, height)
-    );
-    */
   }
 
   createPlantGroup(numberOfPlants) {
     this.plantGroup = this.add.group();
 
     for (let i = 0; i < numberOfPlants; i++) {
-      const plantObj = new Plant(this, 0, 0, { key: 'plant', active: false });
+      const plantObj = new Plant(this, 0, 0, {key: 'plant', active: false});
       this.plantGroup.add(plantObj);
     }
   }
 
-  setUpCryptoMiner(numberOfMiners) {
+  createCryptominerGroup(numberOfMiners) {
     this.minerGroup = this.add.group();
 
     for (let i = 0; i < numberOfMiners; i++) {
-      const plantObj = new CryptoMiner(this, 0, 0, { key: 'cryptominer', active: false });
+      const plantObj = new CryptoMiner(this, 0, 0, {key: 'cryptominer', active: false});
       this.minerGroup.add(plantObj);
     }
   };
@@ -251,6 +244,39 @@ class GameScene extends Phaser.Scene {
       // this.cursor.resetCursor();
       // this.unitToBuild = null;
     }
+  }
+
+  setUpPathFinder() {
+    const createGrid = () => {
+      const grid = [];
+      for (let y = 0; y < this.map.height; y++) {
+        const col = [];
+        for (let x = 0; x < this.map.width; x++) {
+          const tile = this.map.getTileAt(x, y);
+          col.push(tile.index);
+        }
+        grid.push(col);
+      }
+      return grid
+    }
+
+    const findAcceptableTiles= () => {
+      const tileset = this.map.tilesets[0];
+      const properties = tileset.tileProperties;
+      const acceptableTiles = [];
+
+      // "firstgid" is property given by Tiled as the first index
+      for(let i = tileset.firstgid - 1; i < tileset.total; i++){
+        if(!properties.hasOwnProperty(i) || !properties[i].collidable) {
+          acceptableTiles.push(i + 1);
+        }
+      }
+      return acceptableTiles
+    }
+
+    this.finder = new EasyStar.js();
+    this.finder.setGrid(createGrid());
+    this.finder.setAcceptableTiles(findAcceptableTiles());
   }
 
   createAnimations() {
