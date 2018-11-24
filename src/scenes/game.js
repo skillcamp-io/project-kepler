@@ -12,7 +12,7 @@ const AVAILABLE_UNITS = {
   plant_1: 'plant',
   plant_2: 'plant',
   plant_3: 'plant',
-  plant_4: 'plant',
+  miner: 'cryptominer',
 };
 
 class GameScene extends Phaser.Scene {
