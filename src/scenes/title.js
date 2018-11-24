@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import $ from 'cash-dom';
 
 class TitleScene extends Phaser.Scene {
   constructor() {
@@ -23,8 +24,7 @@ class TitleScene extends Phaser.Scene {
     this.scene.start('GameScene');
 
     // Game start, show UI
-    const gameUI = document.querySelector('.game-ui');
-    gameUI.classList.remove('hidden');
+    $('.extra-game-info, .build-ui').removeClass('hidden');
   }
 }
 

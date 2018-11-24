@@ -1,7 +1,19 @@
 import $ from 'cash-dom';
+import Tock from 'tocktimer';
 
-const TIME_BETWEEN_WAVES = 60 * 2 * 1000; // 60 seconds, times 2, times 1000 milliseconds
+const TIME_BETWEEN_WAVES = 60 * 1 * 1000; // 60 seconds, times 2, times 1000 milliseconds
+let buildingMode = true;
+let buildingModeText = 'Building';
+let timer = null;
 
+const toggleGameMode = () => {
+  buildingMode = !buildingMode;
+
+  buildingModeText = buildingMode ? 'Building' : 'Fighting';
+
+  // TODO: Maybe not loop waves? More logic?
+  timer.start(TIME_BETWEEN_WAVES);
+};
 
 /**
  * Disables all buttons except the clicked one
@@ -34,48 +46,52 @@ const buildUnit = (e) => {
   }
 };
 
-$('.game-ui .menu li a').on('click', buildUnit);
+const cancelUnitBuilding = () => {
+  // Remove active class and blur
+  $('.build-ui .menu li a.active').removeClass();
+  document.activeElement.blur();
+  $(document).trigger('build_unit_canceled');
+};
+
+timer = new Tock({
+  countdown: true,
+  interval: 10,
+  callback: () => {
+    const currentTime = timer.msToTime(timer.lap()).substring(0, 5);
+    $('.timer').text(`${buildingModeText}: ${currentTime}`);
+  },
+  complete: () => {
+    $(document).trigger('wave_timer_finished');
+    toggleGameMode();
+  },
+});
+
+// Start our timer, cound down 2 mins
+// TODO: Start at 2 min right away, should something trigger the initial countdown
+timer.start(TIME_BETWEEN_WAVES);
+
+/**
+ * Handle clicking menu items
+ */
+$('.build-ui .menu li a').on('click', buildUnit);
+
+/**
+ * Reset building when menu is opened and closed
+ */
+$('.build-ui .accordion-header').on('click', () => {
+  cancelUnitBuilding();
+});
 
 document.onkeydown = (e) => {
   const evt = e || window.event;
   if (evt.keyCode === 27) {
-    $('.unit-card').removeClass('selected');
-    $(document).trigger('build_unit_canceled');
+    cancelUnitBuilding();
   }
 };
 
-/*
-  Convert this to UI
-
-  setUpWaveTimer() {
-    this.text = this.add.text(32, 32);
-    this.timedEvent = this.time.addEvent({
-      delay: TIME_BETWEEN_WAVES,
-      callback: this.timerCallback,
-      callbackScope: this,
-      loop: true,
-    });
-
-    this.gameModeText = this.add.text(this.cameras.main.width - 100, 32);
-    this.gameModeText.setText('Building');
-  }
-
-  
-
-  timerCallback() {
-    console.log('TIMER!');
-    this.currentlyBuilding = !this.currentlyBuilding;
-  }
-
-  
-  handleTimerText() {
-    const millis = TIME_BETWEEN_WAVES - (this.timedEvent.getElapsedSeconds().toFixed(0) * 1000);
-    const minutes = Math.floor(millis / 60000);
-    const seconds = ((millis % 60000) / 1000).toFixed(0);
-    const padding = seconds < 10 ? '0' : '';
-    const str = `${minutes}:${padding}${seconds}`;
-
-    this.text.setText(`Time to next wave: ${str}`);
-  }
-
-*/
+/**
+ * Start the wave countdown when we receive the event
+ */
+$(document).on('start_wave_countdown', () => {
+  timer.start(TIME_BETWEEN_WAVES);
+});
