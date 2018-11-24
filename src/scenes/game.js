@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-
 import $ from 'cash-dom';
 
 import Player from '../entities/player';
@@ -34,8 +33,6 @@ class GameScene extends Phaser.Scene {
 
     // Current mode (building: true, fighting: false)
     this.currentlyBuilding = true;
-
-    console.log(this);
   }
 
   preload() {
@@ -87,11 +84,27 @@ class GameScene extends Phaser.Scene {
       }
     });
 
-    // When we cancel building, reset the cursor image and alpha
+    /**
+     * When we cancel building, reset the cursor image and alpha
+     */
     $(document).on('build_unit_canceled', () => {
       this.cursor.resetCursor();
       this.cursor.setVisible(false);
       this.unitToBuild = null;
+    });
+
+    /**
+     * When the wave is finished, toggle state, build enemies, etc
+     */
+    $(document).on('wave_timer_finished', () => {
+      this.currentlyBuilding = !this.currentlyBuilding;
+
+      if (!this.currentlyBuilding) {
+        // FIGHT!
+
+        // TODO: When all enemies are dead, or manually triggered, or just loop?
+        // $(document).trigger('start_wave_countdown');
+      }
     });
   }
 
@@ -106,19 +119,18 @@ class GameScene extends Phaser.Scene {
     this.cursor.x = this.map.tileToWorldX(pointerTileX);
     this.cursor.y = this.map.tileToWorldY(pointerTileY);
 
-    if (this.input.manager.activePointer.justUp) {
+    if (this.input.manager.activePointer.justUp && !this.checkCollision(pointerTileX, pointerTileY)) {
       this.handleGameClick(this.cursor.x, this.cursor.y);
     }
   }
 
-  // TODO: Make sure that we can add our units where we clicked, use this to verify
   checkCollision(x, y) {
     const tile = this.map.getTileAt(x, y);
-    return tile.properties.collide === true;
+    return tile.properties.collidable === true;
   }
 
   setUpPlayer() {
-    this.player = new Player(this, 100, 100, {
+    this.player = new Player(this, 15 * 64, 15 * 64, {
       key: 'player',
     });
 
@@ -134,7 +146,7 @@ class GameScene extends Phaser.Scene {
 
     const tiles = this.map.addTilesetImage('scifi_tilesheet', 'scifi_tilesheet_img', 64, 64, 1, 2);
 
-    this.background_layer = this.map.createStaticLayer('background_layer', tiles, 0, 0);
+    this.background_layer = this.map.createStaticLayer('walkable_layer', tiles, 0, 0);
 
     // this.map.setCollisionBetween(20, 39);
     this.map.setCollisionByProperty({

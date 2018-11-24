@@ -15,7 +15,7 @@ body {
     overflow: hidden;
     position: relative;
 
-    .game-ui {
+    .build-ui {
         background-color: rgba(247,248,249,.65);
         bottom: 6px;
         left: 0;
@@ -53,6 +53,28 @@ body {
 
         .accordion-body {
             margin: 0;
+        }
+    }
+
+    .extra-game-info {
+        background-color: rgba(247,248,249,.65);
+        bottom: 6px;
+        right: 0;
+        position: absolute;
+        user-select: none;
+        display: flex;
+        flex-flow: row;
+        padding: 0.2rem 0.4rem;
+        text-align: right;
+
+        .debug {
+            text-align: left;
+        }
+
+        .timer {
+            display: block;
+            padding: .2rem .4rem;
+            text-align: right;
         }
     }
 }
