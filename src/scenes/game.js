@@ -3,12 +3,13 @@ import $ from 'cash-dom';
 
 import Player from '../entities/player';
 import UFO from '../entities/ufo';
+import CryptoMiner from '../entities/cryptominer';
 import Cursor from '../entities/cursor';
 import Plant from '../entities/plant';
 
 const AVAILABLE_UNITS = {
-  plant_1: 'plant',
-  plant_2: 'plant',
+  plant: 'plant',
+  miner: 'cryptominer',
   plant_3: 'plant',
   plant_4: 'plant',
 };
@@ -39,10 +40,11 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    // TODO: Figure out a way to clean this up. Or maybe this is the best way to initialize everything?
     this.setUpMap();
 
-    this.createEnemyGroup(30);
-    this.createPlantGroup(30);
+    this.createEnemyGroup(150);
+    this.createPlantGroup(150);
 
     this.setUpPlayer();
 
@@ -51,6 +53,8 @@ class GameScene extends Phaser.Scene {
     this.setUpEventListeners();
 
     this.setUpCursor();
+
+    this.setUpCryptoMiner(150);
   }
 
   update() {
@@ -166,7 +170,7 @@ class GameScene extends Phaser.Scene {
 
   createEnemyGroup(numberOfEnemies) {
     this.ufo = this.physics.add.group();
-    
+
     // TODO: Enable this again, add them randomly and move to the center. Use A* pathfinding (see initial commits), not random bouncing
     /*
     for (let i = 1; i < numberOfEnemies; i++) {
@@ -195,9 +199,16 @@ class GameScene extends Phaser.Scene {
       const plantObj = new Plant(this, 0, 0, { key: 'plant', active: false });
       this.plantGroup.add(plantObj);
     }
-
-    // TODO: Use createMultiple but with our custom Plant class
   }
+
+  setUpCryptoMiner(numberOfMiners) {
+    this.minerGroup = this.add.group();
+
+    for (let i = 0; i < numberOfMiners; i++) {
+      const plantObj = new CryptoMiner(this, 0, 0, { key: 'cryptominer', active: false });
+      this.minerGroup.add(plantObj);
+    }
+  };
 
   storeBuiltUnit(x, y, item) {
     const coord = `${x}_${y}`;
@@ -214,12 +225,26 @@ class GameScene extends Phaser.Scene {
     }
 
     if (this.unitToBuild !== null && !this.unitsBuilt.hasOwnProperty(coord)) {
+      let newUnit = null;
 
-      // TODO: Here we will build different type of units depending on the type (this.unitToBuild)
-      const alien = this.plantGroup.get(x + this.map.tileWidth / 2, y + this.map.tileHeight / 2);
-      alien.setActive(true).setVisible(true);
+      const xPos = x + this.map.tileWidth / 2;
+      const yPos = y + this.map.tileHeight / 2;
 
-      this.storeBuiltUnit(x, y, alien);
+      switch (this.unitToBuild) {
+        case 'plant':
+          newUnit = this.plantGroup.get(xPos, yPos);
+          break;
+        case 'cryptominer':
+          newUnit = this.minerGroup.get(xPos, yPos);
+          break;
+        default:
+          break;
+      }
+
+      if (newUnit) {
+        newUnit.setActive(true).setVisible(true);
+        this.storeBuiltUnit(x, y, newUnit);
+      }
 
       // After building, reset the cursor and disable the building finished
       // TODO: Or not?
