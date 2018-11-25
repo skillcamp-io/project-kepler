@@ -124,9 +124,9 @@ const spawnOnMapEdge = (scene) => {
     case 1:
       return { x: position, y: 0 };
     case 2:
-      return { x: scene.map.width - 0, y: position };
+      return { x: scene.map.width - 1, y: position };
     case 3:
-      return { x: position, y: scene.map.height - 0 };
+      return { x: position, y: scene.map.height - 1 };
     case 4:
       return { x: 0, y: position };
   }
