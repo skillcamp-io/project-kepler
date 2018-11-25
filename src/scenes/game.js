@@ -179,7 +179,11 @@ class GameScene extends Phaser.Scene {
       const { x, y } = spawnOnMapEdge(this);
       const childUFO = new UFO(this, x, y, { key: 'ufo_enemy' });
       this.ufo.add(childUFO);
+
+      childUFO.body.collideWorldBounds = true;
       childUFO.setBounce(1);
+      childUFO.visible = false;
+      setTimeout(() => { childUFO.visible = true; }, 1500)
     }
   }
 

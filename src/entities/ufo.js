@@ -15,6 +15,7 @@ class UFO extends Phaser.Physics.Arcade.Sprite {
     this.velocity = 1000;
 
     this.findPath();
+
   }
 
   preUpdate(time, delta) {
