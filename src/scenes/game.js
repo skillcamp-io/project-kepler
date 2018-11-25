@@ -3,7 +3,7 @@ import $ from 'cash-dom';
 import EasyStar from "easystarjs";
 
 import Player from '../entities/player';
-import UFO from '../entities/ufo';
+import UFO, { spawnOnMapEdge } from '../entities/ufo';
 import CryptoMiner from '../entities/cryptominer';
 import Cursor from '../entities/cursor';
 import Plant from '../entities/plant';
@@ -45,19 +45,20 @@ class GameScene extends Phaser.Scene {
   create() {
     // TODO: Figure out a way to clean this up. Or maybe this is the best way to initialize everything?
 
-    // Create World
-    this.setUpMap();
-    this.setUpPlayer();
-    this.setUpCamera();
-    this.setUpEventListeners();
-    this.setUpCursor();
-    // this.setUpPathFinder();
 
+    this.setUpMap();         // needs to be created
+    this.setUpPathFinder();  // before enemies
 
     // Create Entities
-    // this.createEnemyGroup(2);
-    // this.createPlantGroup(2);
-    // this.createCryptominerGroup(2);
+    this.createEnemyGroup(30);
+    this.createPlantGroup(50);
+    this.createCryptominerGroup(50);
+    this.setUpPlayer();
+
+    // Create World
+    this.setUpCamera();
+    this.setUpEventListeners(); // needs to be created before cursor
+    this.setUpCursor();
   }
 
   update() {
@@ -175,12 +176,9 @@ class GameScene extends Phaser.Scene {
     this.ufo = this.physics.add.group();
 
     for (let i = 1; i < numberOfEnemies; i++) {
-      const childUFO = new UFO(this, 0, 0, {
-        key: 'ufo_enemy',
-      });
-
+      const { x, y } = spawnOnMapEdge(this);
+      const childUFO = new UFO(this, x, y, { key: 'ufo_enemy' });
       this.ufo.add(childUFO);
-
       childUFO.setBounce(1);
     }
   }
