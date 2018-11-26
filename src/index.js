@@ -1,14 +1,14 @@
-import Phaser from 'phaser';
+import Phaser from "phaser";
 
-import 'normalize.css';
-import 'spectre.css';
+import "normalize.css";
+import "spectre.css";
 
-import './less/main.less';
+import "./less/main.less";
 
-import './ui';
+import "./ui";
 
-import GameScene from './scenes/game';
-import TitleScene from './scenes/title';
+import GameScene from "./scenes/game";
+import TitleScene from "./scenes/title";
 
 const gameConfig = {
   type: Phaser.AUTO,
@@ -18,13 +18,13 @@ const gameConfig = {
   pixelArt: true,
   zoom: 2,
   physics: {
-    default: 'arcade',
+    default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: false,
-    },
+      debug: true
+    }
   },
-  parent: 'game',
+  parent: "game"
 };
 
 // eslint-disable-next-line no-new

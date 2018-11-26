@@ -19,6 +19,7 @@ class TitleScene extends Phaser.Scene {
     this.load.image('cursor', '../../assets/spritesheets/cursor.png');
     this.load.image('cursor_hand', '../../assets/spritesheets/cursor_hand.png');
     this.load.image('cursor_pointer', '../../assets/spritesheets/cursor_pointer.png');
+    this.load.image('spark', 'assets/particles/blue.png');
   }
 
   create() {
