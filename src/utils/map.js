@@ -1,8 +1,8 @@
 export const spawnOnMapEdge = scene => {
   // map edges are numbered 1 - 4 clockwise from top
   // returns random point (x,y) somewhere on the edge of the map
-  const edge = Math.ceil(Math.random() * 4);
 
+  const edge = Math.ceil(Math.random() * 4);
   const edgeLength = edge % 2 === 0 ? scene.map.height : scene.map.width;
   const position = Math.floor(Math.random() * edgeLength);
 

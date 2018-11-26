@@ -247,7 +247,7 @@ class GameScene extends Phaser.Scene {
 
     // TODO: Make this prettier
     if (!this.currentlyBuilding) {
-      alert("You should be fighting!");
+      // alert("You should be fighting!");
       return false;
     }
 

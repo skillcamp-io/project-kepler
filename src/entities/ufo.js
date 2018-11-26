@@ -5,9 +5,11 @@ class UFO extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, config) {
     super(scene, x, y, config.key);
 
-    this.sfx.explode = new Audio("/assets/audio/explosion.mp3");
+    this.sfx = {
+      explode: new Audio("/assets/audio/explosion.mp3")
+    };
     this.alive = true;
-    this.velocity = 200;
+    this.movementDuration = 500; // Larger is slower
 
     this.scene = scene;
     this.scene.add.existing(this);
@@ -17,7 +19,7 @@ class UFO extends Phaser.Physics.Arcade.Sprite {
     this.hp = new HealthBar(scene, -20, -30);
     this.container = this.scene.add.container(this.x, this.y, this.hp);
 
-    this.handleEnemyDamage();
+    this.handleEnemyDamage(50);
     this.staggerAnimation();
     this.findPath();
   }
@@ -33,9 +35,9 @@ class UFO extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  handleEnemyDamage() {
-    const takeDamage = () => {
-      this.hp.decrease(100);
+  handleEnemyDamage(damageTaken) {
+    const takeDamage = (pointer) => {
+      this.hp.decrease(damageTaken);
       this.setTint(0xff4d4d);
       setTimeout(() => {
         this.setTint(0xffffff);
@@ -89,11 +91,11 @@ class UFO extends Phaser.Physics.Arcade.Sprite {
       targets: this,
       x: {
         value: tile.x * this.scene.map.tileWidth + 32,
-        duration: this.velocity
+        duration: this.movementDuration
       },
       y: {
         value: tile.y * this.scene.map.tileHeight + 32,
-        duration: this.velocity
+        duration: this.movementDuration
       }
     }));
 
