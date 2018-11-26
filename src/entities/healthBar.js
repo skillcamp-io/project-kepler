@@ -5,28 +5,27 @@ class HealthBar extends Phaser.GameObjects.Graphics {
     this.x = x;
     this.y = y;
     this.value = 100;
-    this.p = 76/100;
+    this.pixelRatio = 76 / 100;
 
     this.draw();
 
     this.visible = false;
-    setTimeout(() => { this.visible = true; }, 1500);
+    setTimeout(() => {
+      this.visible = true;
+    }, 1500);
 
     scene.add.existing(this);
   }
 
-  decrease (amount) {
+  decrease(amount) {
     this.value -= amount;
-
     if (this.value < 0) {
       this.value = 0;
     }
-
     this.draw();
-    return (this.value === 0);
   }
 
-  draw () {
+  draw() {
     this.clear();
 
     //  BG
@@ -43,10 +42,9 @@ class HealthBar extends Phaser.GameObjects.Graphics {
       this.fillStyle(0x00ff00);
     }
 
-    const damage = Math.floor(this.p * this.value);
+    const damage = Math.floor(this.pixelRatio * this.value);
     this.fillRect(this.x + 2, this.y + 2, damage, 12);
   }
-
 }
 
-export default HealthBar
+export default HealthBar;
